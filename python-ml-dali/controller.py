@@ -18,7 +18,7 @@ class MLDaliController:
                                         stopbits = stopbits,
                                         bytesize = bytesize
                                     )
-            self._register = {}
+            self._registry = {}
             MLDaliController.__instance__ = self
    
     @staticmethod
@@ -31,7 +31,7 @@ class MLDaliController:
         if not MLDaliController.__instance__:
             MLDaliController(port, baudrate, parity, stopbits, bytesize, timeout)
             asyncio.create_task(MLDaliController.__instance__.monitor())
-        MLDaliController.__instance__._register[(component.address*2)+1] = component
+        MLDaliController.__instance__._registry[(component.address*2)+1] = component
         return MLDaliController.__instance__
 
 
@@ -54,7 +54,7 @@ class MLDaliController:
             
             if len(cmd) == 3:
                 address = int.from_bytes(cmd[1:2],'big')
-                component = self._register.get(address, None)
+                component = self._registry.get(address, None)
                 if component:
                     component.status_update(cmd[2:3])
 
