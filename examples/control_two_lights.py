@@ -1,15 +1,5 @@
-# python-ml-dali
-A Python library to communicate with Dali controllers from Ministry of Light
-
-## Description
-This python libarary can be used to communicate with ML (Ministry of Light) Dali relais on a DALI bus, using the ML DALI USB controller. 
-## Documentation
-
-## QuickStart
-
-```python
 import asyncio
-from light import MLDaliLight
+from MLDali import MLDaliLight
 
 async def turnOnOff(address):
     light_fixture = MLDaliLight(address)
@@ -30,7 +20,7 @@ async def turnOnOffDelayed(address):
 async def main():
     await asyncio.gather(turnOnOff(12), turnOnOffDelayed(13), asyncio.sleep(20))
 
-asyncio.run(main())
 
-```
-
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())

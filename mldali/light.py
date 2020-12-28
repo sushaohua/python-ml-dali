@@ -21,7 +21,7 @@ class MLDaliLight():
     
     def status_update(self, rx):
         print(f"Component at address {self.address} received status_update: {rx}")
-        if rx[2:3] = b'\x05':
+        if rx[2:3] == b'\x05':
             self.is_on = True
-        elif rx[2:3] = b'\x00':
+        elif rx[2:3] == b'\x00':
             self.is_on = False
