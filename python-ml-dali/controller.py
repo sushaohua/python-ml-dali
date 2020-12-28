@@ -20,23 +20,20 @@ class MLDaliController:
                                     )
             self._register = {}
             MLDaliController.__instance__ = self
-
-    
+   
     @staticmethod
-    def get_instance(port = "COM4", 
+    def register(component, port = "COM4", 
                     baudrate = 9600, 
                     parity = serial.PARITY_NONE, 
                     stopbits = serial.STOPBITS_ONE, 
                     bytesize = serial.EIGHTBITS, 
-                    timeout = None) -> 'MLDaliController': #see why this needs to be quoted: https://stackoverflow.com/questions/36286894/name-not-defined-in-type-annotation
-        """ Static method to fetch the current instance
-        """
+                    timeout = None) -> 'MLDaliController':
         if not MLDaliController.__instance__:
             MLDaliController(port, baudrate, parity, stopbits, bytesize, timeout)
+            asyncio.create_task(MLDaliController.__instance__.monitor())
+        MLDaliController.__instance__._register[(component.address*2)+1] = component
         return MLDaliController.__instance__
-    
-    def register_component(self, component):
-        self._register[(component.address*2)+1] = component
+
 
     def open(self):
         self._ser.open()

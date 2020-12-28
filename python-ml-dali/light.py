@@ -5,8 +5,7 @@ class MLDaliLight():
 
     def __init__(self, address):
         self.address = address
-        self._controller = MLDaliController.get_instance()
-        self._controller.register_component(self)
+        self._controller = MLDaliController.register(self)
         self.is_on = False
     
     async def turn_on(self):
