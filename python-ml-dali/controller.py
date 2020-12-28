@@ -56,7 +56,7 @@ class MLDaliController:
                 address = int.from_bytes(cmd[1:2],'big')
                 component = self._registry.get(address, None)
                 if component:
-                    component.status_update(cmd[2:3])
+                    component.status_update(cmd)
 
     async def read_byte(self):
         rx = await self._ser.read_async(3)

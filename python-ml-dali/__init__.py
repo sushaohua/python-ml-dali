@@ -2,7 +2,7 @@ import aioserial
 import asyncio
 import serial
 from controller import MLDaliController
-from light import MLDaliLight, create_MLDaliLight
+from light import MLDaliLight
 
 async def serial_monitor():
     ctr = MLDaliController.get_instance()
@@ -25,6 +25,6 @@ async def turnOnOffDelayed(address):
 
 
 async def main():
-    await asyncio.gather(turnOnOff1(12), turnOnOffDelayed(13))
+    await asyncio.gather(turnOnOff1(12), turnOnOffDelayed(13), asyncio.sleep(20))
 
 asyncio.run(main())
