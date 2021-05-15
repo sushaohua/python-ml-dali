@@ -1,5 +1,5 @@
 import asyncio
-from MLDali import MLDaliLight
+from mldali import MLDaliLight
 
 async def turnOnOff(address):
     light_fixture = MLDaliLight(address)
