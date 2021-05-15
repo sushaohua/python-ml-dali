@@ -1,4 +1,4 @@
-from controller import MLDaliController
+from .controller import MLDaliController
 import time
 
 class MLDaliLight():
