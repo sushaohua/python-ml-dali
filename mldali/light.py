@@ -3,9 +3,9 @@ import time
 
 class MLDaliLight():
 
-    def __init__(self, address):
+    def __init__(self, address, port="COM4"):
         self.address = address
-        self._controller = MLDaliController.register(self)
+        self._controller = MLDaliController.register(self,port=port)
         self.is_on = False
     
     async def turn_on(self):
