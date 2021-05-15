@@ -2,7 +2,7 @@ import asyncio
 from mldali import MLDaliLight
 
 async def turnOnOff(address):
-    light_fixture = MLDaliLight(address)
+    light_fixture = MLDaliLight(address, "//dev/ttyUSB0")
     await asyncio.sleep(1)
     await light_fixture.turn_on()
     await asyncio.sleep(3)
@@ -10,7 +10,7 @@ async def turnOnOff(address):
 
 async def turnOnOffDelayed(address):
     await asyncio.sleep(2)
-    light_fixture = MLDaliLight(address)
+    light_fixture = MLDaliLight(address, "//dev/ttyUSB0")
     await asyncio.sleep(1)
     await light_fixture.turn_on()
     await asyncio.sleep(1)
