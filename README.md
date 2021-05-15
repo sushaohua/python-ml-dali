@@ -9,7 +9,7 @@ This python libarary can be used to communicate with ML (Ministry of Light) Dali
 
 ```python
 import asyncio
-from light import MLDaliLight
+from mldali import MLDaliLight
 
 async def turnOnOff(address):
     light_fixture = MLDaliLight(address)
@@ -30,7 +30,8 @@ async def turnOnOffDelayed(address):
 async def main():
     await asyncio.gather(turnOnOff(12), turnOnOffDelayed(13), asyncio.sleep(20))
 
-asyncio.run(main())
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
 
 ```
 

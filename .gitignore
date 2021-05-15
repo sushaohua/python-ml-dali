@@ -1,5 +1,5 @@
 # VSCode
-python-ml-dali.code-workspace
+*.code-workspace
 .vscode/
 
 # Byte-compiled / optimized / DLL files
