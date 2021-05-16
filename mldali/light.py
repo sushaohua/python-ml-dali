@@ -1,5 +1,5 @@
 from .controller import MLDaliController
-from mldali import LIGHT_SWITCHED_ON, LIGHT_SWITCHED_OFF, UNKNOWN_EVENT
+from .const import LIGHT_SWITCHED_ON, LIGHT_SWITCHED_OFF, UNKNOWN_EVENT
 import time
 import logging
 
