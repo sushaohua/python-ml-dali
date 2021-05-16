@@ -1,5 +1,9 @@
 from .controller import MLDaliController
+from mldali import LIGHT_SWITCHED_ON, LIGHT_SWITCHED_OFF, UNKNOWN_EVENT
 import time
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 class MLDaliLight():
 
@@ -7,6 +11,7 @@ class MLDaliLight():
         self.address = address
         self._controller = MLDaliController.register(self,port=port)
         self.is_on = False
+        self._listeners = []
     
     async def turn_on(self):
         cmd = bytearray([0x01, (self.address*2)+1, 5, 0xC1])
@@ -20,8 +25,17 @@ class MLDaliLight():
         await self._controller.sendCmd(cmd)
     
     def status_update(self, rx):
-        print(f"Component at address {self.address} received status_update: {rx}")
+        _LOGGER.debug(f"Component at address {self.address} received status_update: {rx}")
+        event = UNKNOWN_EVENT
         if rx[2:3] == b'\x05':
             self.is_on = True
+            event = LIGHT_SWITCHED_ON
         elif rx[2:3] == b'\x00':
             self.is_on = False
+            event = LIGHT_SWITCHED_OFF
+        
+        for call in self._listeners:
+            call(event)
+    
+    def registerEventListener(self, callable):
+        self._listeners.append(callable)
