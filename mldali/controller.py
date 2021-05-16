@@ -2,6 +2,10 @@ import aioserial
 import asyncio
 import serial
 
+import logging
+
+_LOGGER = logging.getLogger(__name__)
+
 class MLDaliController:
     __instance__ = None
 
@@ -42,11 +46,11 @@ class MLDaliController:
         self._ser.close()
     
     async def monitor(self):
-        print("Start Monitoring")
+        _LOGGER.debug("Start Monitoring")
         cmd = bytes()
         while True:
             rx = await self._ser.read_async(1)
-            print(f"Observed: {rx}")
+            _LOGGER.debug(f"Observed: {rx}")
             if rx == b'\x02' or rx == b'\x04':
                 cmd = rx
             else:
