@@ -2,7 +2,7 @@ from .controller import MLDaliController
 from .const import LIGHT_SWITCHED_ON, LIGHT_SWITCHED_OFF, UNKNOWN_EVENT
 import time
 import logging
-
+_LOGGER = logging.getLogger(__name__)
 
 class MLDaliLight():
 
@@ -24,7 +24,7 @@ class MLDaliLight():
         await self._controller.sendCmd(cmd)
     
     def status_update(self, rx):
-        logging.debug(f"Component at address {self.address} received status_update: {rx}")
+        _LOGGER.debug(f"Component at address {self.address} received status_update: {rx}")
         event = UNKNOWN_EVENT
         if rx[2:3] == b'\x05':
             self.is_on = True
@@ -32,7 +32,7 @@ class MLDaliLight():
         elif rx[2:3] == b'\x00':
             self.is_on = False
             event = LIGHT_SWITCHED_OFF
-        logging.info(f"Shade {self.address} changed state to {self.state}")
+        _LOGGER.info(f"Shade {self.address} changed state to {self.state}")
         for call in self._listeners:
             call(event)
     
