@@ -32,7 +32,7 @@ class MLDaliLight():
         elif rx[2:3] == b'\x00':
             self.is_on = False
             event = LIGHT_SWITCHED_OFF
-        _LOGGER.info(f"Shade {self.address} changed state to {self.state}")
+        _LOGGER.info(f"Shade {self.address} changed state to {event}")
         for call in self._listeners:
             call(event)
     
