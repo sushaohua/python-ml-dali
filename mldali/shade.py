@@ -3,6 +3,11 @@ from .const import SHADE_CLOSING, SHADE_OPENING, SHADE_OPENED, SHADE_CLOSED, SHA
 import logging
 import asyncio
 
+_LOGGER = logging.getLogger(__name__)
+_LOGGER.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+_LOGGER.addHandler(ch)
 
 class MLDaliShade():
 
@@ -35,7 +40,7 @@ class MLDaliShade():
             call(self.state)
 
     def status_update(self, rx):
-        logging.debug(f"Component at address {self.address} received status_update: {rx}")
+        _LOGGER.debug(f"Component at address {self.address} received status_update: {rx}")
         event = UNKNOWN_EVENT
 
         if self.pending_task:
@@ -50,7 +55,7 @@ class MLDaliShade():
         elif rx[2:3] == b'\x00':
             self.state = SHADE_STOPPED
         
-        logging.info(f"Shade {self.address} changed state to {self.state}")
+        _LOGGER.info(f"Shade {self.address} changed state to {self.state}")
         
         for call in self._listeners:
             call(event)
