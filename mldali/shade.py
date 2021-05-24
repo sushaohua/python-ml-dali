@@ -4,10 +4,6 @@ import logging
 import asyncio
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-_LOGGER.addHandler(ch)
 
 class MLDaliShade():
 
