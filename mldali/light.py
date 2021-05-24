@@ -2,7 +2,6 @@ from .controller import MLDaliController
 from .const import LIGHT_SWITCHED_ON, LIGHT_SWITCHED_OFF, UNKNOWN_EVENT
 import time
 import logging
-
 _LOGGER = logging.getLogger(__name__)
 
 class MLDaliLight():
@@ -33,7 +32,7 @@ class MLDaliLight():
         elif rx[2:3] == b'\x00':
             self.is_on = False
             event = LIGHT_SWITCHED_OFF
-        
+        _LOGGER.info(f"Shade {self.address} changed state to {self.state}")
         for call in self._listeners:
             call(event)
     

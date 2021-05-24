@@ -3,7 +3,6 @@ import asyncio
 import serial
 
 import logging
-
 _LOGGER = logging.getLogger(__name__)
 
 class MLDaliController:
@@ -50,7 +49,7 @@ class MLDaliController:
         cmd = bytes()
         while True:
             rx = await self._ser.read_async(1)
-            _LOGGER.debug(f"Observed: {rx}")
+            logging.debug(f"Observed: {rx}")
             if rx == b'\x02' or rx == b'\x04':
                 cmd = rx
             else:
