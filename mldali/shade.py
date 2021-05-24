@@ -37,7 +37,6 @@ class MLDaliShade():
 
     def status_update(self, rx):
         _LOGGER.debug(f"Component at address {self.address} received status_update: {rx}")
-        event = UNKNOWN_EVENT
 
         if self.pending_task:
             self.pending_task.cancel()
@@ -50,11 +49,13 @@ class MLDaliShade():
             self.pending_task = asyncio.create_task(self.signal_completion(SHADE_CLOSED))
         elif rx[2:3] == b'\x00':
             self.state = SHADE_STOPPED
+        else:
+            self.state = UNKNOWN_EVENT
         
         _LOGGER.info(f"Shade {self.address} changed state to {self.state}")
         
         for call in self._listeners:
-            call(event)
+            call(self.state)
     
     def registerEventListener(self, callable):
         self._listeners.append(callable)
