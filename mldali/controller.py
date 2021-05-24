@@ -4,7 +4,6 @@ import serial
 
 import logging
 
-_LOGGER = logging.getLogger(__name__)
 
 class MLDaliController:
     __instance__ = None
@@ -46,11 +45,11 @@ class MLDaliController:
         self._ser.close()
     
     async def monitor(self):
-        _LOGGER.debug("Start Monitoring")
+        logging.debug("Start Monitoring")
         cmd = bytes()
         while True:
             rx = await self._ser.read_async(1)
-            _LOGGER.debug(f"Observed: {rx}")
+            logging.debug(f"Observed: {rx}")
             if rx == b'\x02' or rx == b'\x04':
                 cmd = rx
             else:
