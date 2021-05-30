@@ -22,6 +22,7 @@ class MLDaliController:
                                         bytesize = bytesize
                                     )
             self._registry = {}
+            self._groups = {}        
             MLDaliController.__instance__ = self
    
     @staticmethod
@@ -57,9 +58,15 @@ class MLDaliController:
             
             if len(cmd) == 3:
                 address = int.from_bytes(cmd[1:2],'big')
-                component = self._registry.get(address, None)
-                if component:
-                    component.status_update(cmd)
+                if address >= 129 and address <= 159:
+                    address_list = list(self._groups[address])
+                else:
+                    address_list = [address]
+                
+                for addr in address_list:
+                    component = self._registry.get(addr, None)
+                    if component:
+                        component.status_update(cmd)
 
     async def read_byte(self):
         rx = await self._ser.read_async(3)
@@ -67,3 +74,15 @@ class MLDaliController:
     
     async def sendCmd(self, tx):
         await self._ser.write_async(tx)
+
+    async def registerToGroup(self, group_address, component):
+        if group_address not in self._groups:
+            self._groups[group_address] = set()
+        self._groups[group_address].add((component.address*2)+1)
+
+    async def removeFromGroup(self, group_address, component):
+        if group_address in self._groups:
+            self._groups[group_address].discard((component.address*2)+1)
+
+    async def getGroupDevices(self, group_address):
+        return self._groups.get(group_address, set())
