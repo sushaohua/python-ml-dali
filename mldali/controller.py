@@ -75,16 +75,16 @@ class MLDaliController:
     async def sendCmd(self, tx):
         await self._ser.write_async(tx)
 
-    async def registerToGroup(self, group_address, component):
+    def registerToGroup(self, group_address, component):
         internal_group_address = (group_address*2)+1
         if internal_group_address not in self._groups:
             self._groups[internal_group_address] = set()
         self._groups[internal_group_address].add((component.address*2)+1)
 
-    async def removeFromGroup(self, group_address, component):
+    def removeFromGroup(self, group_address, component):
         internal_group_address = (group_address*2)+1
         if internal_group_address in self._groups:
             self._groups[internal_group_address].discard((component.address*2)+1)
 
-    async def _getGroupDevices(self, internal_group_address):
+    def _getGroupDevices(self, internal_group_address):
         return list(self._groups.get(internal_group_address, set()))
