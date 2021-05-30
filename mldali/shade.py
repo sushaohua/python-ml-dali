@@ -7,9 +7,11 @@ _LOGGER = logging.getLogger(__name__)
 
 class MLDaliShade():
 
-    def __init__(self, address, port="COM4", full_close_duration = 50):
+    def __init__(self, address, port="COM4", full_close_duration = 50, group_membership = []):
         self.address = address
         self._controller = MLDaliController.register(self,port=port)
+        for group_address in group_membership:
+            self._controller.registerToGroup(group_address, self)
         self.state = None
         self.pending_task = None
         self.full_close_duration = full_close_duration #Number of seconds for the shade to completely close/open
