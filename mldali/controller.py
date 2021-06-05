@@ -1,6 +1,7 @@
 import aioserial
 import asyncio
 import serial
+import time
 
 import logging
 _LOGGER = logging.getLogger(__name__)
@@ -73,6 +74,7 @@ class MLDaliController:
         return rx
     
     async def sendCmd(self, tx):
+        time.sleep(.1)
         await self._ser.write_async(tx)
 
     def registerToGroup(self, group_address, component):
