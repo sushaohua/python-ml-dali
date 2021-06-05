@@ -74,8 +74,8 @@ class MLDaliController:
         return rx
     
     async def sendCmd(self, tx):
-        time.sleep(.1)
         await self._ser.write_async(tx)
+        time.sleep(.1)
 
     def registerToGroup(self, group_address, component):
         internal_group_address = (group_address*2)+1
